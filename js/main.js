@@ -32,8 +32,6 @@
         smoother,
         swup,
         currentTransition = 'fade',
-        splitTextInstances = [],
-        mm,
         cursorLabels = {
             'playReel': 'Play Reel',
             'viewProject': 'View Project',
@@ -97,21 +95,7 @@
         // Easy to find and adjust timeline animations
         // ============================================
         initResponsiveAnimations = function() {
-            // Kill the existing matchMedia context first (this also kills its ScrollTriggers)
-            if (mm) {
-                mm.revert();
-            }
-            
-            // Clean up SplitText instances
-            splitTextInstances.forEach(function(instance) {
-                if (instance && typeof instance.revert === 'function') {
-                    instance.revert();
-                }
-            });
-            splitTextInstances = [];
-            
-            // Create new matchMedia context
-            mm = gsap.matchMedia();
+            var mm = gsap.matchMedia();
             
             // MOBILE (up to 767px)
             mm.add("(max-width: 767px)", function() {
@@ -238,7 +222,6 @@
                     var statement01Text = homeStatement01Section.querySelector('a');
                     if (statement01Text) {
                         var split01 = new SplitText(statement01Text, { type: 'lines', linesClass: 'split-line' });
-                        splitTextInstances.push(split01);
                         var lines01 = split01.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -293,7 +276,6 @@
                     var statement02Text = homeStatement02Section.querySelector('a');
                     if (statement02Text) {
                         var split02 = new SplitText(statement02Text, { type: 'lines', linesClass: 'split-line' });
-                        splitTextInstances.push(split02);
                         var lines02 = split02.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -472,7 +454,6 @@
                     var statement01Text = homeStatement01Section.querySelector('a');
                     if (statement01Text) {
                         var split01 = new SplitText(statement01Text, { type: 'lines', linesClass: 'split-line' });
-                        splitTextInstances.push(split01);
                         var lines01 = split01.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -527,7 +508,6 @@
                     var statement02Text = homeStatement02Section.querySelector('a');
                     if (statement02Text) {
                         var split02 = new SplitText(statement02Text, { type: 'lines', linesClass: 'split-line' });
-                        splitTextInstances.push(split02);
                         var lines02 = split02.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -737,7 +717,6 @@
                     var statement01Text = homeStatement01Section.querySelector('a');
                     if (statement01Text) {
                         var split01 = new SplitText(statement01Text, { type: 'lines', linesClass: 'split-line' });
-                        splitTextInstances.push(split01);
                         var lines01 = split01.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -792,7 +771,6 @@
                     var statement02Text = homeStatement02Section.querySelector('a');
                     if (statement02Text) {
                         var split02 = new SplitText(statement02Text, { type: 'lines', linesClass: 'split-line' });
-                        splitTextInstances.push(split02);
                         var lines02 = split02.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -929,46 +907,6 @@
                 var container = document.getElementById('swup');
                 var trans = transitions[currentTransition] || transitions.fade;
                 trans.out(container);
-                
-                // Clean up manually created DOM elements first
-                ['homeStatement01Section', 'homeStatement02Section'].forEach(function(sectionId) {
-                    var section = document.getElementById(sectionId);
-                    if (section) {
-                        var linkElement = section.querySelector('a');
-                        if (linkElement) {
-                            // Remove duplicate highlights
-                            var duplicates = linkElement.querySelectorAll('.text-red-500');
-                            duplicates.forEach(function(dup) {
-                                if (dup.parentNode) {
-                                    dup.parentNode.removeChild(dup);
-                                }
-                            });
-                            
-                            // Unwrap position:relative divs
-                            var wrappers = linkElement.querySelectorAll('div[style*="position: relative"]');
-                            wrappers.forEach(function(wrapper) {
-                                var parent = wrapper.parentNode;
-                                while (wrapper.firstChild) {
-                                    parent.insertBefore(wrapper.firstChild, wrapper);
-                                }
-                                parent.removeChild(wrapper);
-                            });
-                        }
-                    }
-                });
-                
-                // Clean up SplitText instances
-                splitTextInstances.forEach(function(instance) {
-                    if (instance && typeof instance.revert === 'function') {
-                        instance.revert();
-                    }
-                });
-                splitTextInstances = [];
-                
-                // Clean up matchMedia context (includes its ScrollTriggers)
-                if (mm) {
-                    mm.revert();
-                }
             });
             swup.on('animationOutDone', function() {
                 // Kill any remaining ScrollTrigger instances
