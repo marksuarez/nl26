@@ -1,0 +1,110 @@
+/*
+Theme Name: Copilot
+Theme URI: https://example.com
+Author: Your Name
+Author URI: https://example.com
+Description: Custom WordPress theme with Tailwind CSS, GSAP, Alpine.js, and Swup
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: copilot
+*/
+
+/* GT Flexa Font Family */
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Thin-Trial.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Thin-Italic-Trial.woff2') format('woff2');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Light-Trial.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Light-Italic-Trial.woff2') format('woff2');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Regular-Trial.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Regular-Italic-Trial.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Medium-Trial.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Medium-Italic-Trial.woff2') format('woff2');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Bold-Trial.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Bold-Italic-Trial.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Black-Trial.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GT Flexa';
+    src: url('webfonts/GT-Flexa-Black-Italic-Trial.woff2') format('woff2');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Tailwind CSS will be loaded via CDN with GT Flexa configured */
