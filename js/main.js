@@ -33,6 +33,7 @@
         swup,
         currentTransition = 'fade',
         splitTextInstances = [],
+        mm,
         cursorLabels = {
             'playReel': 'Play Reel',
             'viewProject': 'View Project',
@@ -96,6 +97,11 @@
         // Easy to find and adjust timeline animations
         // ============================================
         initResponsiveAnimations = function() {
+            // Kill the existing matchMedia context first (this also kills its ScrollTriggers)
+            if (mm) {
+                mm.revert();
+            }
+            
             // Clean up any existing SplitText instances
             splitTextInstances.forEach(function(instance) {
                 if (instance && typeof instance.revert === 'function') {
@@ -104,7 +110,8 @@
             });
             splitTextInstances = [];
             
-            var mm = gsap.matchMedia();
+            // Create new matchMedia context
+            mm = gsap.matchMedia();
             
             // MOBILE (up to 767px)
             mm.add("(max-width: 767px)", function() {
@@ -922,9 +929,22 @@
                 var container = document.getElementById('swup');
                 var trans = transitions[currentTransition] || transitions.fade;
                 trans.out(container);
+                
+                // Clean up matchMedia context (includes its ScrollTriggers)
+                if (mm) {
+                    mm.revert();
+                }
+                
+                // Clean up SplitText instances
+                splitTextInstances.forEach(function(instance) {
+                    if (instance && typeof instance.revert === 'function') {
+                        instance.revert();
+                    }
+                });
+                splitTextInstances = [];
             });
             swup.on('animationOutDone', function() {
-                // Kill all ScrollTrigger instances
+                // Kill any remaining ScrollTrigger instances
                 ScrollTrigger.getAll().forEach(function(t) { t.kill(); });
                 
                 // Kill all GSAP tweens and timelines
