@@ -102,34 +102,7 @@
                 mm.revert();
             }
             
-            // Clean up manually created wrappers and duplicate elements BEFORE reverting SplitText
-            ['homeStatement01Section', 'homeStatement02Section'].forEach(function(sectionId) {
-                var section = document.getElementById(sectionId);
-                if (section) {
-                    var linkElement = section.querySelector('a');
-                    if (linkElement) {
-                        // Remove duplicate highlights (red text overlays)
-                        var duplicates = linkElement.querySelectorAll('.text-red-500');
-                        duplicates.forEach(function(dup) {
-                            if (dup.parentNode) {
-                                dup.parentNode.removeChild(dup);
-                            }
-                        });
-                        
-                        // Unwrap the position:relative wrapper divs
-                        var wrappers = linkElement.querySelectorAll('div[style*="position: relative"]');
-                        wrappers.forEach(function(wrapper) {
-                            var parent = wrapper.parentNode;
-                            while (wrapper.firstChild) {
-                                parent.insertBefore(wrapper.firstChild, wrapper);
-                            }
-                            parent.removeChild(wrapper);
-                        });
-                    }
-                }
-            });
-            
-            // Now clean up SplitText instances (this will revert the .split-line divs)
+            // Clean up SplitText instances
             splitTextInstances.forEach(function(instance) {
                 if (instance && typeof instance.revert === 'function') {
                     instance.revert();
@@ -957,10 +930,32 @@
                 var trans = transitions[currentTransition] || transitions.fade;
                 trans.out(container);
                 
-                // Clean up matchMedia context (includes its ScrollTriggers)
-                if (mm) {
-                    mm.revert();
-                }
+                // Clean up manually created DOM elements first
+                ['homeStatement01Section', 'homeStatement02Section'].forEach(function(sectionId) {
+                    var section = document.getElementById(sectionId);
+                    if (section) {
+                        var linkElement = section.querySelector('a');
+                        if (linkElement) {
+                            // Remove duplicate highlights
+                            var duplicates = linkElement.querySelectorAll('.text-red-500');
+                            duplicates.forEach(function(dup) {
+                                if (dup.parentNode) {
+                                    dup.parentNode.removeChild(dup);
+                                }
+                            });
+                            
+                            // Unwrap position:relative divs
+                            var wrappers = linkElement.querySelectorAll('div[style*="position: relative"]');
+                            wrappers.forEach(function(wrapper) {
+                                var parent = wrapper.parentNode;
+                                while (wrapper.firstChild) {
+                                    parent.insertBefore(wrapper.firstChild, wrapper);
+                                }
+                                parent.removeChild(wrapper);
+                            });
+                        }
+                    }
+                });
                 
                 // Clean up SplitText instances
                 splitTextInstances.forEach(function(instance) {
@@ -969,6 +964,11 @@
                     }
                 });
                 splitTextInstances = [];
+                
+                // Clean up matchMedia context (includes its ScrollTriggers)
+                if (mm) {
+                    mm.revert();
+                }
             });
             swup.on('animationOutDone', function() {
                 // Kill any remaining ScrollTrigger instances
