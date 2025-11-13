@@ -32,6 +32,7 @@
         smoother,
         swup,
         currentTransition = 'fade',
+        splitTextInstances = [],
         cursorLabels = {
             'playReel': 'Play Reel',
             'viewProject': 'View Project',
@@ -95,6 +96,14 @@
         // Easy to find and adjust timeline animations
         // ============================================
         initResponsiveAnimations = function() {
+            // Clean up any existing SplitText instances
+            splitTextInstances.forEach(function(instance) {
+                if (instance && typeof instance.revert === 'function') {
+                    instance.revert();
+                }
+            });
+            splitTextInstances = [];
+            
             var mm = gsap.matchMedia();
             
             // MOBILE (up to 767px)
@@ -222,6 +231,7 @@
                     var statement01Text = homeStatement01Section.querySelector('a');
                     if (statement01Text) {
                         var split01 = new SplitText(statement01Text, { type: 'lines', linesClass: 'split-line' });
+                        splitTextInstances.push(split01);
                         var lines01 = split01.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -276,6 +286,7 @@
                     var statement02Text = homeStatement02Section.querySelector('a');
                     if (statement02Text) {
                         var split02 = new SplitText(statement02Text, { type: 'lines', linesClass: 'split-line' });
+                        splitTextInstances.push(split02);
                         var lines02 = split02.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -454,6 +465,7 @@
                     var statement01Text = homeStatement01Section.querySelector('a');
                     if (statement01Text) {
                         var split01 = new SplitText(statement01Text, { type: 'lines', linesClass: 'split-line' });
+                        splitTextInstances.push(split01);
                         var lines01 = split01.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -508,6 +520,7 @@
                     var statement02Text = homeStatement02Section.querySelector('a');
                     if (statement02Text) {
                         var split02 = new SplitText(statement02Text, { type: 'lines', linesClass: 'split-line' });
+                        splitTextInstances.push(split02);
                         var lines02 = split02.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -717,6 +730,7 @@
                     var statement01Text = homeStatement01Section.querySelector('a');
                     if (statement01Text) {
                         var split01 = new SplitText(statement01Text, { type: 'lines', linesClass: 'split-line' });
+                        splitTextInstances.push(split01);
                         var lines01 = split01.lines;
                         
                         // Wrap each line and create highlight overlay
@@ -771,6 +785,7 @@
                     var statement02Text = homeStatement02Section.querySelector('a');
                     if (statement02Text) {
                         var split02 = new SplitText(statement02Text, { type: 'lines', linesClass: 'split-line' });
+                        splitTextInstances.push(split02);
                         var lines02 = split02.lines;
                         
                         // Wrap each line and create highlight overlay
