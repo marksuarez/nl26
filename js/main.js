@@ -1697,9 +1697,12 @@
         },
         init = function() {
             initGSAP();
-            initAnimations();
+            
+            // Delay animations until layout is ready
             requestAnimationFrame(function() {
                 setTimeout(function() {
+                    initAnimations();
+                    
                     if (smoother) {
                         smoother.effects('[data-speed], [data-lag]', {});
                         smoother.refresh();
