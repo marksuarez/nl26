@@ -102,37 +102,40 @@
                 mm.revert();
             }
             
-            // Clean up any existing SplitText instances
+            // Clean up manually created wrappers and duplicate elements BEFORE reverting SplitText
+            ['homeStatement01Section', 'homeStatement02Section'].forEach(function(sectionId) {
+                var section = document.getElementById(sectionId);
+                if (section) {
+                    var linkElement = section.querySelector('a');
+                    if (linkElement) {
+                        // Remove duplicate highlights (red text overlays)
+                        var duplicates = linkElement.querySelectorAll('.text-red-500');
+                        duplicates.forEach(function(dup) {
+                            if (dup.parentNode) {
+                                dup.parentNode.removeChild(dup);
+                            }
+                        });
+                        
+                        // Unwrap the position:relative wrapper divs
+                        var wrappers = linkElement.querySelectorAll('div[style*="position: relative"]');
+                        wrappers.forEach(function(wrapper) {
+                            var parent = wrapper.parentNode;
+                            while (wrapper.firstChild) {
+                                parent.insertBefore(wrapper.firstChild, wrapper);
+                            }
+                            parent.removeChild(wrapper);
+                        });
+                    }
+                }
+            });
+            
+            // Now clean up SplitText instances (this will revert the .split-line divs)
             splitTextInstances.forEach(function(instance) {
                 if (instance && typeof instance.revert === 'function') {
                     instance.revert();
                 }
             });
             splitTextInstances = [];
-            
-            // Clean up manually created wrappers and duplicate elements in statement sections
-            ['homeStatement01Section', 'homeStatement02Section'].forEach(function(sectionId) {
-                var section = document.getElementById(sectionId);
-                if (section) {
-                    var linkElement = section.querySelector('a');
-                    if (linkElement) {
-                        // Remove all manually created wrapper divs and duplicate highlights
-                        var wrappers = linkElement.querySelectorAll('div[style*="position: relative"]');
-                        wrappers.forEach(function(wrapper) {
-                            while (wrapper.firstChild) {
-                                if (!wrapper.firstChild.className || wrapper.firstChild.className.indexOf('text-red-500') === -1) {
-                                    wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
-                                } else {
-                                    wrapper.removeChild(wrapper.firstChild);
-                                }
-                            }
-                            if (wrapper.parentNode) {
-                                wrapper.parentNode.removeChild(wrapper);
-                            }
-                        });
-                    }
-                }
-            });
             
             // Create new matchMedia context
             mm = gsap.matchMedia();
