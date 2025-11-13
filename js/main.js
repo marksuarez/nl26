@@ -110,6 +110,30 @@
             });
             splitTextInstances = [];
             
+            // Clean up manually created wrappers and duplicate elements in statement sections
+            ['homeStatement01Section', 'homeStatement02Section'].forEach(function(sectionId) {
+                var section = document.getElementById(sectionId);
+                if (section) {
+                    var linkElement = section.querySelector('a');
+                    if (linkElement) {
+                        // Remove all manually created wrapper divs and duplicate highlights
+                        var wrappers = linkElement.querySelectorAll('div[style*="position: relative"]');
+                        wrappers.forEach(function(wrapper) {
+                            while (wrapper.firstChild) {
+                                if (!wrapper.firstChild.className || wrapper.firstChild.className.indexOf('text-red-500') === -1) {
+                                    wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
+                                } else {
+                                    wrapper.removeChild(wrapper.firstChild);
+                                }
+                            }
+                            if (wrapper.parentNode) {
+                                wrapper.parentNode.removeChild(wrapper);
+                            }
+                        });
+                    }
+                }
+            });
+            
             // Create new matchMedia context
             mm = gsap.matchMedia();
             
